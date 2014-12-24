@@ -27,7 +27,6 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 	private String[] npNums = new String[60];
 	private EditText etInput;
 	Intent i;
-	public static Dictionary dict;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,6 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 			npNums[i-1] = Integer.toString(i * 5);
 		}
 		
-		//create dictionary
-		dict = new Dictionary();
-		
 		bPlay = (Button) findViewById(R.id.bPlay);
 		bQuit = (Button) findViewById(R.id.bQuit);
 		bPlay.setOnClickListener(this);
@@ -60,7 +56,8 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 			if(Build.VERSION.SDK_INT >= 11) {
 				picker = new NumberPicker(this);
 				picker.setMaxValue(50);
-				picker.setMinValue(1);
+				picker.setMinValue(3);
+				picker.setValue(15);
 				v1 = picker;
 			} else {
 				etInput = new EditText(this);
@@ -114,7 +111,7 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 				.create();
 				playDialog.show();
 			} else {
-				int fullSize = dict.FULLLIST.size();
+				int fullSize = Dictionary.FULLLIST.size();
 				
 				//check input type
 				String text = etInput.getText().toString();
@@ -152,7 +149,7 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 			
 		case AlertDialog.BUTTON_NEUTRAL:
 			if(Build.VERSION.SDK_INT >= 11) {
-				i.putExtra("seconds", picker.getValue());
+				i.putExtra("seconds", Integer.parseInt(npNums[picker.getValue()]));
 				startActivity(i);
 			} else {
 				//check input type
