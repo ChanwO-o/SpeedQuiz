@@ -24,8 +24,10 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 	private Button bQuit;
 	private AlertDialog playDialog;
 	private NumberPicker picker;
+	private String[] npNums = new String[60];
 	private EditText etInput;
 	Intent i;
+	public static Dictionary dict;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,14 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 		//hide the ActionBar
 		if(Build.VERSION.SDK_INT >= 11)
 			getActionBar().hide();
+		
+		//array multiples of 5 for number picker
+		for (int i = 1; i <= 60; i++) {
+			npNums[i-1] = Integer.toString(i * 5);
+		}
+		
+		//create dictionary
+		dict = new Dictionary();
 		
 		bPlay = (Button) findViewById(R.id.bPlay);
 		bQuit = (Button) findViewById(R.id.bQuit);
@@ -88,9 +98,10 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 			if(Build.VERSION.SDK_INT >= 11) {
 				i.putExtra("wordcount", picker.getValue());
 				picker = new NumberPicker(this);
-				picker.setMaxValue(300);
-				picker.setMinValue(5);
-				picker.setValue(60);
+				picker.setMaxValue(npNums.length - 1);
+				picker.setMinValue(0);
+				picker.setDisplayedValues(npNums);
+				picker.setValue(5);
 				picker.setScrollBarStyle(NumberPicker.SCROLLBARS_OUTSIDE_OVERLAY);
 				v2 = picker;
 				
@@ -103,7 +114,7 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 				.create();
 				playDialog.show();
 			} else {
-				int fullSize = QuizPlay.FULLLIST.size();
+				int fullSize = dict.FULLLIST.size();
 				
 				//check input type
 				String text = etInput.getText().toString();
