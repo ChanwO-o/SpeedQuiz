@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".QuizMenu" >
+
+    <TextView
+        android:id="@+id/tvMenuText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/speedquiz"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="50sp"
+        android:textStyle="bold|italic"
+        android:typeface="normal" />
+
+    <!--
+     Not using this for now
+    <com.speedquiz.classic.QuizMenuText
+        android:id="@+id/quizMenuText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvMenuText"
+        android:layout_centerHorizontal="true" />
+    -->
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/bPlay"
+            style="@style/button"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/start" />
+
+        <Button
+            android:id="@+id/bDictionary"
+            style="@style/button"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/dictionary" />
+
+        <Button
+            android:id="@+id/bQuit"
+            style="@style/button"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/quit" />
+    </LinearLayout>
+
+</RelativeLayout>

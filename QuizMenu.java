@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,13 +21,16 @@ import com.speedquiz.classic.R;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class QuizMenu extends Activity implements OnClickListener, DialogInterface.OnClickListener {
 
+	RelativeLayout layout;
 	private Button bPlay;
+	private Button bDictionary;
 	private Button bQuit;
 	private AlertDialog playDialog;
 	private NumberPicker picker;
 	private String[] npNums = new String[60];
 	private EditText etInput;
 	Intent i;
+	Dictionary dict;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +40,20 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 		//hide the ActionBar
 		if(Build.VERSION.SDK_INT >= 11)
 			getActionBar().hide();
-		
 		//array multiples of 5 for number picker
 		for (int i = 1; i <= 60; i++) {
 			npNums[i-1] = Integer.toString(i * 5);
 		}
-		
+		dict = (Dictionary) this.getApplicationContext();
+		layout = (RelativeLayout) findViewById(R.id.reLayout);
 		bPlay = (Button) findViewById(R.id.bPlay);
+		bDictionary = (Button) findViewById(R.id.bDictionary);
 		bQuit = (Button) findViewById(R.id.bQuit);
 		bPlay.setOnClickListener(this);
+		bDictionary.setOnClickListener(this);
 		bQuit.setOnClickListener(this);
+		layout.addView(new QuizMenuText(this));
+		
 	}
 
 	@Override
@@ -76,6 +84,11 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 			playDialog.show();
 			break;
 			
+		case R.id.bDictionary:
+			Intent id = new Intent(this, QuizDictionary.class);
+			startActivity(id);
+			break;
+			
 		case R.id.bQuit:
 			finish();
 			break;
@@ -98,7 +111,7 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 				picker.setMaxValue(npNums.length - 1);
 				picker.setMinValue(0);
 				picker.setDisplayedValues(npNums);
-				picker.setValue(5);
+				picker.setValue(10);
 				picker.setScrollBarStyle(NumberPicker.SCROLLBARS_OUTSIDE_OVERLAY);
 				v2 = picker;
 				
@@ -111,7 +124,9 @@ public class QuizMenu extends Activity implements OnClickListener, DialogInterfa
 				.create();
 				playDialog.show();
 			} else {
-				int fullSize = Dictionary.FULLLIST.size();
+				dict.loadDefault();
+				dict.loadCustom();
+				int fullSize = dict.getEntireList().size();
 				
 				//check input type
 				String text = etInput.getText().toString();
